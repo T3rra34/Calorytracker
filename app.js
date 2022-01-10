@@ -25,7 +25,7 @@ const StorageCtrl = (function(){
 })
 
 const ItemCtrl = (function(){
-	Const Item = function(id, name, calories){
+	const Item = function(id, name, calories){
 		this.id = id
 		this.name = name
 		this.calories = calories
@@ -33,42 +33,43 @@ const ItemCtrl = (function(){
 	const data = {
 		items: [
 			{id: 0, name: 'Steak Dinner', calories: 1200},
-			{id: 1, name: 'Cookie' calories: 400},
+			{id: 1, name: 'Cookie', calories: 400},
 			{id: 2, name: 'Eggs', calories:300}
 		],
 		total: 0
 	}
-	return{
-		getItems: function(){
-			return data.items
-		},
-		getItem: function(){
-			let ID;
-			if(data.items.length > 0){
-				ID = data.items[data.items.length - 1].id
-			} else {
-				ID = 0
-			}
-			calories = perseInt(calories);
-			newItem = new Item(ID, name, calories);
-			data.items.push(newItem);
-			console.log(data.items)
-			console.log(newItem)
-			return newItem
-		},
-		getTotalCalories: function(){
-			let total = 0;
-			data.items.forEach(function(item){
-				total = total + item.calories;
-			});
-			data.total = total;
-			return data.total;
+return{
+	getItems: function(){
+		return data.items
+	},
+	addItem: function(){
+		let id;
+
+		if(data.items.length > 0){
+			ID = data.items[data.items.length - 1].id + 1
+		} else {
+			ID = 0
 		}
+		calories = perseInt(calories);
+		newItem = new Item(ID, name, calories);
+		data.items.push(newItem);
+		return newItem
+	},
+	getTotalCalories: function(){
+		let total = 0;
+		data.items.forEach(function(item){
+			total = total + item.calories;
+			console.log(total)
+		});
+		data.total = total;
+		console.log(data.total)
+		return data.total;
+
+	},
+	logData: function(){
+		return Data
 	}
-		logData: function(){
-			return data
-		}
-	}
+}
 })();
 
 const UICtrl = (function(){
@@ -77,21 +78,21 @@ const UICtrl = (function(){
 		itemList: '#Item-list',
 		itemNameInput: '#item-name',
 		itemCaloriesInput: '#item-calories',
-		addBtn: '.add-btn',
+		addBtn: '.addbtn',
 		totalCalories: '.total-Calories'
 	}
 	return{
 		populateItemList: function(items){
 			let html= '';
 			items.forEach(function(item){
-				html += <li class=`collection-item" id="item ${item.id}"><strong>${item.name}:</strong> <em>${item.calories} Calories</em>
+				html += `<li class="collection-item" id="item ${item.id}"><strong>${item.name}:</strong> <em>${item.calories} Calories</em>
 				<a href="#" class="secondary-content">
-				<i class="edit-item-fa fa-pencil"></i>
+				<i class="edit item fa fa-pencil"></i>
 				<a/>
 				</li>`;
 			});
 
-			document.querySelector("#Item-list").innerHTML = html;
+			document.querySelector("#item-list").innerHTML = html;
 		},
 		getSelectors: function(){
 			return UISelectors;
@@ -106,7 +107,7 @@ const UICtrl = (function(){
 			const li = document.createElement('li');
 			li.classname = 'collection-item';
 			li.id = `item ${item.id}`
-			li.innerHTML =`<strong>${item.name}: </strong> <em>${item.calories} Calories</em> <a href="#" class="secondary-content"><i class="edit-item-fa fa-pencil"></i> </a>`
+			li.innerHTML =`<strong>${item.name}: </strong> <em>${item.calories} Calories</em> <a href="#" class="secondary-content"><i class="edit item fa fa-pencil"></i> </a>`
 		document.querySelector(UISelectors.itemList).insertAdjucentElement('beforeend', li)
 		},
 		clearInput:function(){
@@ -154,11 +155,11 @@ const App = (function(ItemCtrl, StorageCtrl, UICtrl){
 			console.log('initalizing app')
 			const items = ItemCtrl.getItems()
 			UICtrl.populateItemList(items)
-			loadEventListener();
+			LoadEventListeners();
 		}
 	}
 	items.forEach(function(item){
-		html += `<li class="collection-item" id="item-${item.id}"> <strong>${item.name}: </strong> <em>${item.calories} Calories</em> <a href="#" class="secondary-content"> <i class="edit-item-fa fa-pencil"></i> </a> </li>`;
+		html += `<li class="collection-item" id="item-${item.id}"> <strong>${item.name}: </strong> <em>${item.calories} Calories</em> <a href="#" class="secondary-content"> <i class="edit item fa fa pencil"></i> </a> </li>`;
 	});
 	
 	console.log(ItemCtrl.logData())
